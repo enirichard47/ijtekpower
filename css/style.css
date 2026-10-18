@@ -246,7 +246,6 @@ body.menu-open .site-header__cta { visibility: hidden; }
   display: flex; align-items: baseline; gap: 1.1rem; padding-block: 1.05rem;
   font-family: var(--font-display); font-weight: 700; font-size: clamp(1.75rem, 1.2rem + 3vw, 2.5rem); letter-spacing: -0.02em; line-height: 1.1;
 }
-.mobile-menu__note { margin-top: 1.25rem; font-size: 0.8rem; color: var(--slate); text-align: center; letter-spacing: 0.02em; }
 @media (min-width: 1024px) { .mobile-menu { display: none !important; } }
 
 /* ==========================================================================
