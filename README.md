@@ -17,7 +17,7 @@ The site doesn't invent any business details. These items need IJTEK's verified 
 | 3 | **Social media links**: full profile URLs (Facebook, Instagram, LinkedIn, X). They then appear in the footer | `js/config.js` → `social` |
 | 4 | **Testimonials**: real customer feedback only, shared with permission. The section stays hidden until at least one entry is added | `js/config.js` → `testimonials` |
 | 5 | **Product range**: confirm the five categories (batteries, panels, inverters & charge controllers, mounting structures, cables & protection devices) match what IJTEK supplies | `products.html`, `#products` in `index.html` |
-| 6 | **Live domain** in canonical URLs, Open Graph tags, JSON-LD, `robots.txt` and `sitemap.xml` (currently `https://www.example.com`) | `node scripts/set-domain.mjs https://www.your-domain.com` |
+| 6 | **Live domain** in canonical URLs, Open Graph tags, JSON-LD, `robots.txt` and `sitemap.xml` (currently `https://www.example.com`) | Find and replace `https://www.example.com` with your domain in `index.html`, `products.html`, `privacy.html`, `robots.txt` and `sitemap.xml` |
 | 7 | **Privacy Policy review**: a draft based on how the site works (WhatsApp, Google Fonts). IJTEK should review it, ideally with legal advice | `privacy.html` |
 | 8 | **Logo**: a temporary typographic wordmark is used | `.brand` markup in all four pages; `favicon.svg` |
 | 9 | **Project photos**: the "Applications" section uses licensed stock photography and doesn't present it as IJTEK projects. Swap in real project photos when available (and rename it "Our Work") | `index.html` → `#work` |
@@ -49,7 +49,11 @@ npx serve .            # or: python -m http.server 8080
 
 ## Deployment
 
-Upload the folder to any static host (Netlify, Vercel, Cloudflare Pages, GitHub Pages, cPanel hosting, etc.). The files to publish are:
+Upload the folder to any static host (Netlify, Vercel, Cloudflare Pages, GitHub Pages, cPanel hosting, etc.). There is no build step and nothing to install.
+
+**Vercel:** `vercel.json` tells Vercel this is a static site (no framework, no install or build command), enables clean URLs (`/products`) and adds security and caching headers. If a deployment still asks for a server entrypoint, open the project's **Settings → Build and Deployment** and set **Framework Preset** to **Other**.
+
+The files to publish are:
 
 ```
 index.html  products.html  privacy.html  404.html  favicon.svg  robots.txt  sitemap.xml
@@ -80,7 +84,6 @@ js/animations.js      GSAP hero entrance, pointer parallax, process timeline, st
 js/contact-form.js    Audit form validation → WhatsApp message
 js/vendor/            GSAP 3.12.5 + ScrollTrigger (self-hosted)
 assets/images/        Optimised WebP images (640–2200px) + og-image.jpg
-scripts/set-domain.mjs  Replaces the placeholder domain (run with Node.js)
 ```
 
 Icons are Lucide (ISC licence), inlined as an SVG sprite at the top of each page, so they also work when a page is opened straight from the folder.
