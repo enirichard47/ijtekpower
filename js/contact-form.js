@@ -1,8 +1,7 @@
 /**
- * Free Power Audit enquiry form.
- * Validates in the browser, submits JSON to the configured endpoint and only
- * reports success once the endpoint has confirmed it received the enquiry.
- * The server re-validates everything (see server/validate.js).
+ * Free Power Audit form → WhatsApp.
+ * Validates the details, then opens WhatsApp (app or web) with a pre-written
+ * message addressed to the number in js/config.js. The customer taps Send.
  */
 (function () {
   "use strict";
@@ -10,20 +9,32 @@
   var form = document.querySelector("[data-audit-form]");
   if (!form) return;
 
-  var config = (window.IJTEK_CONFIG && window.IJTEK_CONFIG.form) || {};
-  var endpoint = (config.endpoint || "").trim();
+  var contact = (window.IJTEK_CONFIG && window.IJTEK_CONFIG.contact) || {};
+  var waNumber = String(contact.whatsapp || "").replace(/\D/g, "");
   var submitBtn = form.querySelector("[data-submit]");
-  var submitLabel = submitBtn.querySelector(".btn__label");
   var status = form.querySelector("[data-form-status]");
   var success = document.querySelector("[data-form-success]");
   var resetBtn = document.querySelector("[data-form-reset]");
+  var retryLink = document.querySelector("[data-wa-retry]");
   var counter = form.querySelector("[data-char-count]");
-  var loadedAt = Date.now();
   var attempted = false;
-  var sending = false;
 
-  var PROPERTY = ["home", "school", "office-business", "community", "other"];
-  var SERVICES = ["new-installation", "system-diagnosis", "repairs", "maintenance", "free-power-audit", "general-consultation", "products"];
+  var PROPERTY = {
+    home: "Home",
+    school: "School",
+    "office-business": "Office or business",
+    community: "Community",
+    other: "Other",
+  };
+  var SERVICES = {
+    "new-installation": "New installation",
+    "system-diagnosis": "Existing system diagnosis",
+    repairs: "Repairs",
+    maintenance: "Maintenance",
+    "free-power-audit": "Free power audit",
+    "general-consultation": "General consultation",
+    products: "Solar batteries & materials",
+  };
 
   var rules = {
     name: function (v) {
@@ -44,8 +55,8 @@
       if (v.length > 160 || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) return "Please enter a valid email address, or leave this blank.";
       return "";
     },
-    propertyType: function (v) { return PROPERTY.indexOf(v) === -1 ? "Please choose your property or facility type." : ""; },
-    service: function (v) { return SERVICES.indexOf(v) === -1 ? "Please choose the service you need." : ""; },
+    propertyType: function (v) { return PROPERTY[v] ? "" : "Please choose your property or facility type."; },
+    service: function (v) { return SERVICES[v] ? "" : "Please choose the service you need."; },
     message: function (v) { return v.length > 1500 ? "Please keep your description under 1,500 characters." : ""; },
   };
 
@@ -89,44 +100,15 @@
     });
   });
 
-  var message = fieldEl("message");
-  if (message && counter) {
-    message.addEventListener("input", function () { counter.textContent = String(message.value.length); });
+  var messageField = fieldEl("message");
+  if (messageField && counter) {
+    messageField.addEventListener("input", function () { counter.textContent = String(messageField.value.length); });
   }
 
-  /* ---------- Status messages ---------- */
-  function fallbackContacts() {
-    var links = (window.IJTEK && window.IJTEK.contactLinks) ? window.IJTEK.contactLinks() : [];
-    if (!links.length) return null;
-    var ul = document.createElement("ul");
-    links.forEach(function (item) {
-      var li = document.createElement("li");
-      var a = document.createElement("a");
-      a.href = item.href;
-      a.textContent = item.label + (item.key === "whatsapp" ? "" : ": " + item.text);
-      if (item.external) { a.target = "_blank"; a.rel = "noopener"; }
-      li.appendChild(a);
-      ul.appendChild(li);
-    });
-    return ul;
-  }
-
-  function showError(text, withContacts) {
+  function showError(text) {
     status.hidden = false;
     status.className = "form-status is-error";
-    status.textContent = "";
-    var p = document.createElement("p");
-    p.textContent = text;
-    status.appendChild(p);
-    if (withContacts) {
-      var list = fallbackContacts();
-      if (list) {
-        var lead = document.createElement("p");
-        lead.textContent = "You can also reach us directly:";
-        status.appendChild(lead);
-        status.appendChild(list);
-      }
-    }
+    status.textContent = text;
   }
 
   function clearStatus() {
@@ -135,26 +117,23 @@
     status.className = "form-status";
   }
 
-  function setLoading(on) {
-    sending = on;
-    submitBtn.disabled = on;
-    submitBtn.classList.toggle("is-loading", on);
-    submitBtn.setAttribute("aria-busy", on ? "true" : "false");
-    submitLabel.textContent = on ? "Sending your request…" : "Request My Free Power Audit";
-  }
-
-  function showSuccess() {
-    form.reset();
-    if (counter) counter.textContent = "0";
-    form.hidden = true;
-    success.hidden = false;
-    success.focus();
+  function buildMessage() {
+    var lines = [
+      "Hello IJTEK Power Solutions, I'd like to request a free power audit / consultation.",
+      "",
+      "Name: " + value("name"),
+      "Phone: " + value("phone"),
+    ];
+    if (value("email")) lines.push("Email: " + value("email"));
+    lines.push("Property type: " + PROPERTY[value("propertyType")]);
+    lines.push("Service required: " + SERVICES[value("service")]);
+    if (value("message")) lines.push("", "Details: " + value("message"));
+    return lines.join("\n");
   }
 
   /* ---------- Submit ---------- */
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-    if (sending) return;
     attempted = true;
     clearStatus();
 
@@ -164,75 +143,26 @@
       return;
     }
 
-    if (!endpoint) {
-      showError("Online requests aren't available just yet. Please try again later.", true);
+    if (!waNumber) {
+      showError("Sorry, WhatsApp requests aren't available just yet. Please try again later.");
       return;
     }
 
-    var payload = {
-      name: value("name"),
-      phone: value("phone"),
-      email: value("email"),
-      propertyType: value("propertyType"),
-      service: value("service"),
-      message: value("message"),
-      website: fieldEl("website") ? fieldEl("website").value : "",
-      elapsedMs: Date.now() - loadedAt,
-    };
+    var url = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(buildMessage());
+    // Opening inside the submit handler counts as a user action, so pop-up blockers allow it.
+    // ("noopener" would make window.open return null, so detach the opener manually.)
+    var win = window.open(url, "_blank");
+    if (win) win.opener = null;
+    if (retryLink) retryLink.href = url;
 
-    var controller = "AbortController" in window ? new AbortController() : null;
-    var timeout = window.setTimeout(function () { if (controller) controller.abort(); }, 20000);
-    setLoading(true);
+    form.reset();
+    if (counter) counter.textContent = "0";
+    form.hidden = true;
+    success.hidden = false;
+    success.focus();
 
-    fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify(payload),
-      signal: controller ? controller.signal : undefined,
-      credentials: "same-origin",
-    })
-      .then(function (res) {
-        return res.json().catch(function () { return null; }).then(function (data) {
-          return { res: res, data: data };
-        });
-      })
-      .then(function (result) {
-        var res = result.res;
-        var data = result.data || {};
-
-        if (res.ok && data.ok !== false) {
-          showSuccess();
-          return;
-        }
-        if (res.status === 422 && data.errors) {
-          var first = null;
-          Object.keys(data.errors).forEach(function (name) {
-            if (rules[name]) {
-              setError(name, data.errors[name]);
-              if (!first) first = fieldEl(name);
-            }
-          });
-          showError("Please check the highlighted fields and try again.", false);
-          if (first) first.focus();
-          return;
-        }
-        if (res.status === 429) {
-          showError("We've received several requests from your connection. Please wait a few minutes and try again.", true);
-          return;
-        }
-        if (res.status === 503) {
-          showError("Online requests aren't available just yet. Your details have not been sent.", true);
-          return;
-        }
-        showError("Sorry, something went wrong and your request was not sent. Please try again.", true);
-      })
-      .catch(function () {
-        showError("We couldn't reach our server, so your request was not sent. Please check your connection and try again.", true);
-      })
-      .then(function () {
-        window.clearTimeout(timeout);
-        setLoading(false);
-      });
+    // If a new tab couldn't be opened, continue in this tab instead.
+    if (!win) window.location.href = url;
   });
 
   if (resetBtn) {
@@ -240,9 +170,11 @@
       success.hidden = true;
       form.hidden = false;
       attempted = false;
-      loadedAt = Date.now();
       Object.keys(rules).forEach(function (name) { setError(name, ""); });
       fieldEl("name").focus();
     });
   }
+
+  // Keep the submit button label in sync with what it actually does.
+  if (submitBtn) submitBtn.setAttribute("aria-describedby", "form-wa-note");
 })();

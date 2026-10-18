@@ -592,7 +592,6 @@ body.menu-open .site-header__cta { visibility: hidden; }
 }
 .field.is-highlight select { animation: field-flash 1.4s var(--ease-out); }
 
-.hp { position: absolute !important; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 .form-privacy { display: flex; gap: 0.65rem; align-items: flex-start; margin-block: 1.75rem 1.5rem; font-size: 0.82rem; line-height: 1.55; color: var(--ink-soft); }
 .form-privacy .icon { margin-top: 0.15rem; width: 1rem; height: 1rem; color: var(--gold-deep); }
@@ -615,6 +614,7 @@ body.menu-open .site-header__cta { visibility: hidden; }
 .form-success__icon { width: 2.75rem; height: 2.75rem; color: #1f8a6f; }
 .form-success h3 { margin-top: 1.25rem; font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; line-height: 1.2; letter-spacing: -0.02em; }
 .form-success p { margin-block: 0.85rem 1.75rem; color: var(--ink-soft); }
+.form-success__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
 @media (min-width: 1024px) {
   .audit__grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 2rem; align-items: start; }

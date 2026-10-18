@@ -14,7 +14,7 @@ window.IJTEK_CONFIG = {
   contact: {
     phone: "",          // e.g. "+2348012345678"
     phoneDisplay: "",   // optional human-friendly version, e.g. "+234 801 234 5678"
-    whatsapp: "",       // e.g. "+2348012345678"
+    whatsapp: "",       // REQUIRED: the audit form and all quote/enquiry buttons send to this number, e.g. "+2348012345678"
     email: "",          // e.g. "hello@your-domain.com"
     address: "No. 22, Alhaji Yusuf Street, Igbogbo, Ikorodu, Lagos, Nigeria",
     serviceAreas: "",   // e.g. "Lagos, Abuja and surrounding states" — only confirmed areas
@@ -40,11 +40,4 @@ window.IJTEK_CONFIG = {
   //   },
   testimonials: [],
 
-  form: {
-    // Where the Free Power Audit form is sent. "/api/enquiry" is the endpoint
-    // provided by server.js in this project (see README → "Enquiry form").
-    // You may instead paste the endpoint of a hosted form service that
-    // accepts JSON (e.g. a Formspree form URL).
-    endpoint: "/api/enquiry",
-  },
 };

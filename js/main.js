@@ -136,6 +136,17 @@
     if (footerList.children.length || footerSocial.children.length) footerCol.hidden = false;
   }
 
+  /* ---------- WhatsApp quote / enquiry buttons ---------- */
+  // Links with data-whatsapp="<message>" open WhatsApp with that message.
+  // Without a configured number they keep their fallback href (the audit form).
+  if (contact.whatsapp) {
+    Array.prototype.forEach.call(document.querySelectorAll("a[data-whatsapp]"), function (a) {
+      a.href = "https://wa.me/" + digits(contact.whatsapp) + "?text=" + encodeURIComponent(a.getAttribute("data-whatsapp"));
+      a.target = "_blank";
+      a.rel = "noopener";
+    });
+  }
+
   /* ---------- Service pre-selection ---------- */
   // Any link with data-service="<value>" pointing at the form selects that service.
   // Links from other pages can use index.html?service=<value>&product=<slug>#audit.
