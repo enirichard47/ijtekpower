@@ -12,12 +12,12 @@ The site doesn't invent any business details. These items need IJTEK's verified 
 
 | # | Item | Where |
 |---|------|-------|
-| 1 | **WhatsApp number (required)**: the audit form and every quote/enquiry button send to this number. Until it's set, the form shows an error and the quote buttons fall back to the form | `js/config.js` → `contact.whatsapp` |
+| 1 | **WhatsApp number (required)**: the quote form and every quote/enquiry button send to this number. Until it's set, the form shows an error and the quote buttons fall back to the form | `js/config.js` → `contact.whatsapp` |
 | 2 | **Other contact details**: phone, email, confirmed service areas, opening hours. The office address is already set | `js/config.js` → `contact` |
 | 3 | **Social media links**: full profile URLs (Facebook, Instagram, LinkedIn, X). They then appear in the footer | `js/config.js` → `social` |
 | 4 | **Testimonials**: real customer feedback only, shared with permission. The section stays hidden until at least one entry is added | `js/config.js` → `testimonials` |
 | 5 | **Product range**: confirm the five categories (batteries, panels, inverters & charge controllers, mounting structures, cables & protection devices) match what IJTEK supplies | `products.html`, `#products` in `index.html` |
-| 6 | **Live domain** in canonical URLs, Open Graph tags, JSON-LD, `robots.txt` and `sitemap.xml` (currently `https://www.example.com`) | Find and replace `https://www.example.com` with your domain in `index.html`, `products.html`, `privacy.html`, `robots.txt` and `sitemap.xml` |
+| 6 | **Live domain**: set to `https://ijtekpower-chi.vercel.app`. If you add a custom domain, find and replace that address in `index.html`, `products.html`, `privacy.html`, `robots.txt` and `sitemap.xml` | (done) |
 | 7 | **Privacy Policy review**: a draft based on how the site works (WhatsApp, Google Fonts). IJTEK should review it, ideally with legal advice | `privacy.html` |
 | 8 | **Logo**: a temporary typographic wordmark is used | `.brand` markup in all four pages; `favicon.svg` |
 | 9 | **Project photos**: the "Applications" section uses licensed stock photography and doesn't present it as IJTEK projects. Swap in real project photos when available (and rename it "Our Work") | `index.html` → `#work` |
@@ -29,9 +29,9 @@ Contact rows, footer links and the "Get directions" map link appear automaticall
 
 ## How requests work (WhatsApp)
 
-- **Free Power Audit form** (`#audit`): checks the fields in the browser (name, phone, optional email, property type, service, optional details). It then opens WhatsApp (app on phones, WhatsApp Web on computers) with a message containing those details. The customer taps **Send**. The page then shows a confirmation with an "Open WhatsApp again" button in case WhatsApp didn't open.
+- **Quote request form** (`#quote`): checks the fields in the browser (name, phone, optional email, property type, service, optional details). It then opens WhatsApp (app on phones, WhatsApp Web on computers) with a message containing those details. The customer taps **Send**. The page then shows a confirmation with an "Open WhatsApp again" button in case WhatsApp didn't open.
 - **Quote and enquiry buttons** ("Request a Product Quote", each "Enquire about …" product button, "Send an Enquiry", "Report a System Problem"): any link with a `data-whatsapp="<message>"` attribute opens WhatsApp with that message. To add another, give a link `data-whatsapp="Hello IJTEK Power Solutions, …"`.
-- **Service pre-selection**: links with `data-service="<option value>"` pointing to `#audit` pre-select the service in the form. From other pages use `index.html?service=<value>&product=<slug>#audit`.
+- **Service pre-selection**: links with `data-service="<option value>"` pointing to `#quote` pre-select the service in the form. From other pages use `index.html?service=<value>&product=<slug>#quote`.
 
 The website doesn't store or transmit form data itself; it only hands the message to WhatsApp.
 
@@ -70,7 +70,7 @@ Recommended on the host:
 ## Project structure
 
 ```
-index.html            Home page (all main sections + audit form)
+index.html            Home page (all main sections + quote form)
 products.html         Products page: solar batteries and solar materials
 privacy.html          Privacy Policy (review before launch)
 404.html              Not-found page
@@ -81,7 +81,7 @@ js/navigation.js      Sticky header (dark/light surface), scroll-spy, accessible
 js/main.js            Preloader, contact details, WhatsApp links, testimonials, form pre-selection, scroll reveals
 js/hero-slider.js     Hero slideshow (curtain wipe + slow zoom)
 js/animations.js      GSAP hero entrance, pointer parallax, process timeline, story parallax
-js/contact-form.js    Audit form validation → WhatsApp message
+js/contact-form.js    Quote form validation → WhatsApp message
 js/vendor/            GSAP 3.12.5 + ScrollTrigger (self-hosted)
 assets/images/        Optimised WebP images (640–2200px) + og-image.jpg
 ```
@@ -113,7 +113,6 @@ All photographs are from [Unsplash](https://unsplash.com) under the free [Unspla
 | service-installation | photo-1660330589257-813305a4a383 |
 | service-inverter-system | photo-1780445392417-68b9dccc45f2 |
 | service-diagnostics | photo-1758101755915-462eddc23f57 |
-| service-consultation | photo-1653566031535-bcf33e1c2893 |
 | work-home | photo-1696393800648-662c06289a5e |
 | work-commercial | photo-1786913508115-51748da1339b |
 | work-school | photo-1473649085228-583485e6e4d7 |

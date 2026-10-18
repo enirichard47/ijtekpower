@@ -343,10 +343,10 @@ body.menu-open .site-header__cta { visibility: hidden; }
 .service { display: grid; gap: 2rem; }
 .service + .service { margin-top: clamp(4.5rem, 3rem + 6vw, 9rem); }
 .service__media { display: block; overflow: hidden; border-radius: var(--radius); }
-.service__media figure, .service__main-img, .service__inset, .service-audit__media { overflow: hidden; border-radius: var(--radius); }
-.service__media img, .service-audit__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease-out); }
+.service__media figure, .service__main-img, .service__inset { overflow: hidden; border-radius: var(--radius); }
+.service__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease-out); }
 .service--feature .service__media figure { aspect-ratio: 16 / 10; }
-.service:hover .service__media img, .service--audit:hover .service-audit__media img { transform: scale(1.04); }
+.service:hover .service__media img { transform: scale(1.04); }
 
 .service__body { min-width: 0; }
 .service__title {
@@ -376,35 +376,6 @@ body.menu-open .site-header__cta { visibility: hidden; }
   .service--feature .service__body { grid-column: 9 / span 4; }
   .service--reverse .service__body { grid-column: 1 / span 4; grid-row: 1; }
   .service--reverse .service__media { grid-column: 6 / span 7; grid-row: 1; }
-}
-
-/* Service 03 — the free audit, emphasised */
-.service--audit {
-  display: block; position: relative; isolation: isolate;
-  margin-inline: calc(var(--gutter) * -1);
-  padding: clamp(3rem, 2rem + 4vw, 6rem) var(--gutter);
-  background: var(--navy); color: var(--ivory);
-  overflow: hidden;
-}
-.service--audit::before {
-  content: ""; position: absolute; inset: 0 auto auto 0; height: 3px; width: 100%;
-  background: var(--gold);
-}
-.service--audit .service__text { color: rgba(247, 247, 242, 0.76); }
-.service-audit__inner { display: grid; gap: 2.5rem; }
-.service-audit__media { aspect-ratio: 4 / 5; max-height: 34rem; }
-.audit-facts { display: grid; margin-block: 2rem 2.5rem; border-top: 1px solid var(--line-light); }
-.audit-facts div { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1rem; padding-block: 0.95rem; border-bottom: 1px solid var(--line-light); }
-.audit-facts dt { font-family: var(--font-tech); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--slate); padding-top: 0.2rem; }
-.audit-facts dd { font-weight: 500; }
-
-@media (min-width: 768px) {
-  .service--audit { margin-inline: 0; border-radius: var(--radius); padding-inline: clamp(2.5rem, 1rem + 4vw, 5.5rem); }
-}
-@media (min-width: 1024px) {
-  .service-audit__inner { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 2rem; align-items: center; }
-  .service--audit .service__body { grid-column: 1 / span 6; }
-  .service-audit__media { grid-column: 8 / span 5; max-height: none; }
 }
 
 /* ==========================================================================
@@ -536,7 +507,7 @@ body.menu-open .site-header__cta { visibility: hidden; }
 }
 
 /* ==========================================================================
-   Free power audit (form)
+   Quote request form
    ========================================================================== */
 .audit { overflow: hidden; isolation: isolate; }
 .audit__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3rem; }
@@ -863,13 +834,18 @@ a.contact-list__value:hover { color: var(--gold-deep); }
   clip-path: inset(0 0 0 0);
 }
 .is-preloading body { overflow: hidden; }
-.preloader__inner { display: grid; justify-items: center; text-align: center; }
-.preloader__mark { width: 76px; height: 76px; overflow: visible; }
-.preloader__ring { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-dasharray: 100; stroke-dashoffset: 100; transform: rotate(-90deg); transform-origin: 50% 50%; }
-.preloader__sun { fill: var(--gold); transform: translateY(16px); }
-.preloader__horizon { stroke: currentColor; stroke-width: 1.5; transform: scaleX(0); transform-origin: 50% 50%; }
-.preloader__name { margin-top: 1.5rem; font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; letter-spacing: 0.32em; padding-left: 0.32em; opacity: 0; }
-.preloader__tag { margin-top: 0.4rem; font-family: var(--font-tech); font-weight: 500; font-size: 0.62rem; letter-spacing: 0.4em; padding-left: 0.4em; text-transform: uppercase; color: var(--slate); opacity: 0; }
-.preloader__bar { position: relative; display: block; width: 120px; height: 1px; margin-top: 1.75rem; background: rgba(247, 247, 242, 0.14); overflow: hidden; }
-.preloader__bar span { position: absolute; top: 0; bottom: 0; left: 0; width: 40%; background: var(--gold); transform: translateX(-100%); }
+
+/* The lockup mirrors the header logo exactly, so it reads as one centred unit. */
+.preloader__inner { display: grid; gap: 2.25rem; }
+.preloader__brand { display: flex; align-items: center; gap: 1.1rem; }
+.preloader__mark { width: 3.5rem; height: 3.5rem; flex: none; overflow: visible; }
+.preloader__ring { fill: none; stroke: currentColor; stroke-width: 1.3; stroke-dasharray: 100; stroke-dashoffset: 100; transform: rotate(-90deg); transform-origin: 50% 50%; }
+.preloader__sun { fill: var(--gold); transform: translateY(8px); }
+.preloader__horizon { stroke: currentColor; stroke-width: 1.3; transform: scaleX(0); transform-origin: 50% 50%; }
+.preloader__text { display: flex; flex-direction: column; line-height: 1; clip-path: inset(0 100% 0 0); }
+/* Negative right margins cancel the trailing letter-spacing so the lockup centres optically. */
+.preloader__name { font-family: var(--font-display); font-weight: 800; font-size: 2.1rem; letter-spacing: 0.14em; margin-right: -0.14em; }
+.preloader__tag { margin-top: 0.5rem; font-family: var(--font-tech); font-weight: 500; font-size: 0.68rem; letter-spacing: 0.32em; margin-right: -0.32em; text-transform: uppercase; color: var(--slate); }
+.preloader__progress { position: relative; display: block; height: 1px; background: rgba(247, 247, 242, 0.14); overflow: hidden; }
+.preloader__progress span { position: absolute; inset: 0; background: var(--gold); transform: scaleX(0); transform-origin: left center; transition: transform 0.6s var(--ease-out); }
 

@@ -45,18 +45,54 @@
     else fn();
   }
 
+  // Wordmark waits for its fonts so it never shifts from a fallback font.
+  var markFontsReady = function () { root.classList.add("fonts-ready"); };
+  if (document.fonts && document.fonts.load) {
+    Promise.all([
+      document.fonts.load('800 1em "Manrope"'),
+      document.fonts.load('500 1em "Space Grotesk"'),
+    ]).then(markFontsReady, markFontsReady);
+  } else {
+    markFontsReady();
+  }
+  window.setTimeout(markFontsReady, 1200);
+
   if (preloading) {
+    // Progress follows real loading: above-the-fold images and fonts, then the load event.
+    var bar = document.querySelector("[data-preloader-bar]");
+    var setProgress = function (p) { if (bar) bar.style.transform = "scaleX(" + p + ")"; };
+    var tracked = Array.prototype.filter.call(document.images, function (img) {
+      return img.loading !== "lazy" && !img.hasAttribute("data-src") && !img.closest(".preloader");
+    });
+    var total = tracked.length + 1;
+    var done = 0;
+    var step = function () {
+      done += 1;
+      setProgress(Math.min(0.9, 0.15 + 0.75 * (done / total)));
+    };
+    setProgress(0.15);
+    tracked.forEach(function (img) {
+      if (img.complete) step();
+      else {
+        img.addEventListener("load", step, { once: true });
+        img.addEventListener("error", step, { once: true });
+      }
+    });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(step, step);
+    else step();
+
     var exitPreloader = function () {
       if (!preloading) return;
       root.classList.add("preloader-exit");
       root.classList.remove("is-preloading");
       flushPreloadQueue();
-      window.setTimeout(function () { root.classList.remove("preloader-exit"); }, 1100);
+      window.setTimeout(function () { root.classList.remove("preloader-exit"); }, 1300);
     };
     var onLoaded = function () {
-      // Keep it up long enough for the mark to finish drawing (~1.6s from navigation start).
+      setProgress(1);
+      // Let the bar finish, and keep the mark up long enough to complete (~1.8s from navigation start).
       var elapsed = window.performance && performance.now ? performance.now() : 0;
-      window.setTimeout(exitPreloader, Math.max(0, 1600 - elapsed));
+      window.setTimeout(exitPreloader, Math.max(450, 1800 - elapsed));
     };
     if (document.readyState === "complete") onLoaded();
     else window.addEventListener("load", onLoaded);
@@ -138,7 +174,7 @@
 
   /* ---------- WhatsApp quote / enquiry buttons ---------- */
   // Links with data-whatsapp="<message>" open WhatsApp with that message.
-  // Without a configured number they keep their fallback href (the audit form).
+  // Without a configured number they keep their fallback href (the quote form).
   if (contact.whatsapp) {
     Array.prototype.forEach.call(document.querySelectorAll("a[data-whatsapp]"), function (a) {
       a.href = "https://wa.me/" + digits(contact.whatsapp) + "?text=" + encodeURIComponent(a.getAttribute("data-whatsapp"));
@@ -149,7 +185,7 @@
 
   /* ---------- Service pre-selection ---------- */
   // Any link with data-service="<value>" pointing at the form selects that service.
-  // Links from other pages can use index.html?service=<value>&product=<slug>#audit.
+  // Links from other pages can use index.html?service=<value>&product=<slug>#quote.
   var serviceSelect = document.getElementById("f-service");
   var PRODUCTS = {
     batteries: "solar batteries",
@@ -266,7 +302,7 @@
   }
 
   /* ---------- Cross-page anchors ---------- */
-  // Arriving from another page (e.g. products.html → index.html?service=products#audit):
+  // Arriving from another page (e.g. products.html → index.html?service=products#quote):
   // re-apply the jump once images and fonts have settled, without smooth scrolling.
   if (window.location.hash.length > 1) {
     window.addEventListener("load", function () {

@@ -6,10 +6,10 @@
   <title>Solar Batteries &amp; Solar Materials | IJTEK Power Solutions</title>
   <meta name="description" content="Solar batteries, solar panels, inverters, charge controllers, mounting structures, cables and protection devices from IJTEK Power Solutions in Ikorodu, Lagos.">
   <meta name="theme-color" content="#07111F">
-  <link rel="canonical" href="https://www.example.com/products.html">
+  <link rel="canonical" href="https://ijtekpower-chi.vercel.app/products">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Solar Batteries &amp; Solar Materials | IJTEK Power Solutions">
-  <meta property="og:image" content="https://www.example.com/assets/images/og-image.jpg">
+  <meta property="og:image" content="https://ijtekpower-chi.vercel.app/assets/images/og-image.jpg">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,15 +24,19 @@
 <body>
   <div class="preloader" aria-hidden="true">
     <div class="preloader__inner">
-      <svg class="preloader__mark" viewBox="0 0 64 64" focusable="false">
-        <defs><clipPath id="preloader-clip"><rect x="0" y="0" width="64" height="38.5"/></clipPath></defs>
-        <circle class="preloader__ring" cx="32" cy="32" r="29" pathLength="100"/>
-        <g clip-path="url(#preloader-clip)"><path class="preloader__sun" d="M17 38.5a15 15 0 0 1 30 0z"/></g>
-        <path class="preloader__horizon" d="M8 38.5h48"/>
-      </svg>
-      <p class="preloader__name">IJTEK</p>
-      <p class="preloader__tag">Power Solutions</p>
-      <span class="preloader__bar"><span></span></span>
+      <div class="preloader__brand">
+        <svg class="preloader__mark" viewBox="0 0 32 32" focusable="false">
+          <defs><clipPath id="preloader-clip"><rect x="0" y="0" width="32" height="19"/></clipPath></defs>
+          <circle class="preloader__ring" cx="16" cy="16" r="14.5" pathLength="100"/>
+          <g clip-path="url(#preloader-clip)"><path class="preloader__sun" d="M8.5 19a7.5 7.5 0 0 1 15 0z"/></g>
+          <path class="preloader__horizon" d="M4.5 19h23"/>
+        </svg>
+        <span class="preloader__text">
+          <span class="preloader__name">IJTEK</span>
+          <span class="preloader__tag">Power Solutions</span>
+        </span>
+      </div>
+      <span class="preloader__progress"><span data-preloader-bar></span></span>
     </div>
   </div>
   <!-- Lucide icons (ISC License) https://lucide.dev -->
@@ -64,8 +68,8 @@
         </ul>
       </nav>
 
-      <a class="btn btn--gold btn--sm site-header__cta" href="index.html#audit" data-service="free-power-audit">
-        Get a Free Power Audit
+      <a class="btn btn--gold btn--sm site-header__cta" href="index.html#quote">
+        Request a Quote
       </a>
 
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
@@ -88,8 +92,8 @@
         </ol>
       </nav>
       <div class="mobile-menu__foot">
-        <a class="btn btn--gold btn--block" href="index.html#audit" data-service="free-power-audit">
-          Get a Free Power Audit
+        <a class="btn btn--gold btn--block" href="index.html#quote">
+          Request a Quote
           <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
         </a>
       </div>
@@ -106,7 +110,7 @@
         <h1 id="page-title">Solar Batteries &amp; Solar Materials.</h1>
         <p>The equipment behind dependable solar and inverter systems, supplied by IJTEK Power Solutions for homes, schools, offices and communities.</p>
         <div class="hero__actions">
-          <a class="btn btn--gold" href="index.html?service=products#audit" data-whatsapp="Hello IJTEK Power Solutions, I\'d like a quote for solar batteries / solar materials.">
+          <a class="btn btn--gold" href="index.html?service=products#quote" data-whatsapp="Hello IJTEK Power Solutions, I'd like a quote for solar batteries / solar materials.">
             Request a Product Quote
             <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
           </a>
@@ -134,7 +138,7 @@
             <h2 class="service__title" id="p-batteries">Solar Batteries</h2>
             <p class="service__text">Energy storage keeps power available after sunset and during grid outages. We supply solar batteries for new systems, and for expanding or replacing the batteries in an existing set-up.</p>
             <ul class="service__points"><li>Battery storage for homes, schools, offices and businesses</li><li>Options for new systems and for upgrading or replacing existing batteries</li><li>Guidance on matching batteries to your inverter and backup needs</li></ul>
-            <a class="btn btn--navy" href="index.html?service=products&amp;product=batteries#audit" data-whatsapp="Hello IJTEK Power Solutions, I'd like a quote for solar batteries.">
+            <a class="btn btn--navy" href="index.html?service=products&amp;product=batteries#quote" data-whatsapp="Hello IJTEK Power Solutions, I'd like a quote for solar batteries.">
               Enquire about solar batteries
               <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
             </a>
@@ -148,7 +152,7 @@
             <h2 class="service__title" id="p-panels">Solar Panels</h2>
             <p class="service__text">Solar panels capture the energy that powers your system. We supply panels for new installations and for expanding systems already in place.</p>
             <ul class="service__points"><li>Panels for residential, commercial and community projects</li><li>Supply for new installations and system expansions</li><li>Advice on how many panels your energy needs call for</li></ul>
-            <a class="btn btn--navy" href="index.html?service=products&amp;product=panels#audit" data-whatsapp="Hello IJTEK Power Solutions, I'd like a quote for solar panels.">
+            <a class="btn btn--navy" href="index.html?service=products&amp;product=panels#quote" data-whatsapp="Hello IJTEK Power Solutions, I'd like a quote for solar panels.">
               Enquire about solar panels
               <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
             </a>
@@ -162,7 +166,7 @@
             <h2 class="service__title" id="p-inverters">Inverters &amp; Charge Controllers</h2>
             <p class="service__text">Inverters and charge controllers convert and manage the power your panels produce and your batteries store. They sit at the heart of a dependable system.</p>
             <ul class="service__points"><li>Inverters for solar and backup power systems</li><li>Charge controllers to manage battery charging</li><li>Help choosing equipment that suits your loads and set-up</li></ul>
-            <a class="btn btn--navy" href="index.html?service=products&amp;product=inverters#audit" data-whatsapp="Hello IJTEK Power Solutions, I'd like a quote for inverters and charge controllers.">
+            <a class="btn btn--navy" href="index.html?service=products&amp;product=inverters#quote" data-whatsapp="Hello IJTEK Power Solutions, I'd like a quote for inverters and charge controllers.">
               Enquire about inverters and charge controllers
               <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
             </a>
@@ -176,7 +180,7 @@
             <h2 class="service__title" id="p-mounting">Mounting Structures</h2>
             <p class="service__text">Mounting structures hold panels securely in place. We supply frames, rails and fixings for roof-mounted and ground-mounted installations.</p>
             <ul class="service__points"><li>Frames and rails for roof and ground installations</li><li>Clamps, brackets and fixings</li><li>Options suited to different roof types</li></ul>
-            <a class="btn btn--navy" href="index.html?service=products&amp;product=mounting#audit" data-whatsapp="Hello IJTEK Power Solutions, I'd like a quote for mounting structures.">
+            <a class="btn btn--navy" href="index.html?service=products&amp;product=mounting#quote" data-whatsapp="Hello IJTEK Power Solutions, I'd like a quote for mounting structures.">
               Enquire about mounting structures
               <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
             </a>
@@ -190,7 +194,7 @@
             <h2 class="service__title" id="p-protection">Cables &amp; Protection Devices</h2>
             <p class="service__text">The right cabling and protection devices help keep a solar system safe, organised and easier to maintain.</p>
             <ul class="service__points"><li>Solar cables and connectors</li><li>Breakers, isolators and surge protection</li><li>Distribution and combiner accessories</li></ul>
-            <a class="btn btn--navy" href="index.html?service=products&amp;product=protection#audit" data-whatsapp="Hello IJTEK Power Solutions, I'd like a quote for cables and protection devices.">
+            <a class="btn btn--navy" href="index.html?service=products&amp;product=protection#quote" data-whatsapp="Hello IJTEK Power Solutions, I'd like a quote for cables and protection devices.">
               Enquire about cables and protection devices
               <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
             </a>
@@ -203,13 +207,13 @@
       <div class="container cta-band__inner">
         <div>
           <p class="eyebrow eyebrow--gold" data-reveal>Not sure what you need?</p>
-          <h2 id="cta-title" data-reveal>Start with a free power audit.</h2>
+          <h2 id="cta-title" data-reveal>Tell us about your project.</h2>
         </div>
         <div data-reveal>
-          <p>Our free power audit and consultation help you understand your energy needs, so you can choose equipment that suits your property.</p>
+          <p>Share what you want to power and we'll recommend equipment that suits your property and budget.</p>
           <div class="hero__actions">
-            <a class="btn btn--gold" href="index.html?service=free-power-audit#audit">
-              Book a Free Power Audit
+            <a class="btn btn--gold" href="index.html?service=products#quote" data-whatsapp="Hello IJTEK Power Solutions, I need help choosing solar equipment for my property.">
+              Chat with Us on WhatsApp
               <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
             </a>
           </div>
@@ -237,8 +241,8 @@
             Solar and inverter solutions customised for homes, schools, offices and communities
             across Nigeria and Sub-Saharan Africa.
           </p>
-          <a class="btn btn--gold btn--sm" href="index.html#audit" data-service="free-power-audit">
-            Get a Free Power Audit
+          <a class="btn btn--gold btn--sm" href="index.html#quote">
+            Request a Quote
             <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
           </a>
         </div>
@@ -260,9 +264,7 @@
           <ul>
             <li><a href="index.html#service-installation">Installations &amp; Diagnostics</a></li>
             <li><a href="index.html#service-repairs">Repairs &amp; Maintenance</a></li>
-            <li><a href="index.html#service-audit">Free Power Audit</a></li>
             <li><a href="products.html">Solar Batteries &amp; Materials</a></li>
-            <li><a href="index.html#audit" data-service="general-consultation">Consultation</a></li>
           </ul>
         </nav>
 

@@ -1,5 +1,5 @@
 /**
- * Free Power Audit form → WhatsApp.
+ * Quote request form → WhatsApp.
  * Validates the details, then opens WhatsApp (app or web) with a pre-written
  * message addressed to the number in js/config.js. The customer taps Send.
  */
@@ -31,8 +31,7 @@
     "system-diagnosis": "Existing system diagnosis",
     repairs: "Repairs",
     maintenance: "Maintenance",
-    "free-power-audit": "Free power audit",
-    "general-consultation": "General consultation",
+    "general-enquiry": "General enquiry",
     products: "Solar batteries & materials",
   };
 
@@ -119,7 +118,7 @@
 
   function buildMessage() {
     var lines = [
-      "Hello IJTEK Power Solutions, I'd like to request a free power audit / consultation.",
+      "Hello IJTEK Power Solutions, I'd like to request a quote.",
       "",
       "Name: " + value("name"),
       "Phone: " + value("phone"),

@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /api/
 
-Sitemap: https://www.example.com/sitemap.xml
+Sitemap: https://ijtekpower-chi.vercel.app/sitemap.xml
